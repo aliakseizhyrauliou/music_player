@@ -4,6 +4,7 @@ import {ArtistDto} from 'src/artist/dto/artist.dto/artist.dto';
 import {ArtistEntity} from 'src/artist/entity/artist.entity/artist.entity';
 import {mapper} from 'src/artist/mapper/mapper';
 import {Repository} from 'typeorm';
+import {CreateArtistDto} from "../../dto/artist.dto/create_artist.dto";
 
 @Injectable()
 export class ArtistService {
@@ -24,10 +25,10 @@ export class ArtistService {
         });
     }
 
-    public async Create(artist: ArtistDto) : Promise<ArtistDto>{
+    public async Create(artist: CreateArtistDto) : Promise<ArtistDto>{
         let artistDb : ArtistEntity = mapper.map(artist, ArtistDto, ArtistEntity);
-        await this.artistRepository.save(artistDb);
-        let artistDto  : ArtistDto = mapper.map(artistDb, ArtistEntity, ArtistDto);
+        let createdArtist : CreateArtistDto = await this.artistRepository.save(artistDb);
+        let artistDto  : ArtistDto = mapper.map(createdArtist, ArtistEntity, ArtistDto);
         console.log(artistDto);
         return artistDto;
     }

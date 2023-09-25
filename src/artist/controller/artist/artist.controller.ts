@@ -1,6 +1,7 @@
 import {Body, Controller, Get, HttpException, HttpStatus, Param, Post} from '@nestjs/common';
-import { ArtistDto } from 'src/artist/dto/artist.dto/artist.dto';
-import { ArtistService } from 'src/artist/service/artist/artist.service';
+import {ArtistDto} from 'src/artist/dto/artist.dto/artist.dto';
+import {ArtistService} from 'src/artist/service/artist/artist.service';
+import {CreateArtistDto} from "../../dto/artist.dto/create_artist.dto";
 
 @Controller('artist')
 export class ArtistController {
@@ -8,24 +9,23 @@ export class ArtistController {
 
     }
 
-    @Post('/')
-    async Create(@Body() artistDto: ArtistDto) : Promise<ArtistDto>{
-        await this.artistServise.Create(artistDto);
-        return artistDto;
+    @Post('createArtist')
+    async Create(@Body() artistDto: CreateArtistDto) : Promise<ArtistDto>{
+        return await this.artistServise.Create(artistDto);
     }
 
-    @Get('/')
+    @Get('getAll')
     async GetAll() : Promise<ArtistDto[]>{
         return await this.artistServise.GetAll();
     }
 
     @Get('/getById/:id')
-    async GetById(@Param() id: any) : Promise<ArtistDto>{
-        let artist : ArtistDto = await this.artistServise.GetById(Number(id.id));
+    async GetById(@Param('id') id: number): Promise<ArtistDto> {
+        let artist : ArtistDto = await this.artistServise.GetById(id);
         if(artist == null){
             throw new HttpException('artist_not_found', HttpStatus.NOT_FOUND);
         }
-        return await this.artistServise.GetById(Number(id.id));
+        return await this.artistServise.GetById(id);
     }
 
 }
