@@ -20,6 +20,10 @@ export class UserService {
         return this.userEntityRepository.findOneBy({email: email});
     }
 
+    async findById(id: number){
+        return this.userEntityRepository.findOneBy({id: id})
+    }
+
 
     async createUser(user: UserSignUpDto) : Promise<BaseResponse> {
         if(await this.findByEmail(user.email) !== null){

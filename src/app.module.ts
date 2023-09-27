@@ -9,6 +9,8 @@ import { UserModule } from './user/user.module';
 import {JwtModule} from "@nestjs/jwt";
 import {jwtConstants} from "./auth/constans";
 import {UserEntity} from "./user/entity/user.entity/user.entity";
+import { MailModule } from './mail/mail.module';
+import { UserConfirmationTokenEntity } from './auth/entity/user.confirmation.token.entity';
 
 @Module({
   imports:[
@@ -18,17 +20,19 @@ import {UserEntity} from "./user/entity/user.entity/user.entity";
       port: 5432,
       password: 'Password1',
       username: 'postgres',
-      entities: [ArtistEntity, UserEntity], // here we have added user enitity in entities array
+      entities: [ArtistEntity, UserEntity, UserConfirmationTokenEntity], // here we have added user enitity in entities array
       database: 'MusicPlayer',
       synchronize: true,
       logging: true,
+      migrations: ["../migrations/*{.ts,.js}"],
+
     }),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
-  ArtistModule, AuthModule, UserModule],
+  ArtistModule, AuthModule, UserModule, MailModule],
   controllers: [AppController],
   providers: [AppService],
 })

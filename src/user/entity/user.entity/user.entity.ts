@@ -26,4 +26,8 @@ export class UserEntity {
     @AutoMap()
     @Column({nullable: false})
     password_hash: string;
+
+    @AutoMap()
+    @Column()
+    is_email_confirmed: boolean;
 }
