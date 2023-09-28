@@ -31,7 +31,9 @@ export class UserService {
         }
 
         const userEntity : UserEntity = mapper.map(user, UserSignUpDto, UserEntity);
-
+        
+        userEntity.is_email_confirmed = false;
+        
         userEntity.password_hash = await this.hashingService.hashPassword(user.password);
 
         await this.userEntityRepository.save(userEntity);

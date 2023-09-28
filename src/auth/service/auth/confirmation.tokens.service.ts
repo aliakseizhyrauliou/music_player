@@ -10,6 +10,7 @@ import * as constants from "constants";
 import {confirmationTokenLength} from "../../constans";
 import {VerificateDto} from "../../dto/verificate.dto";
 import {MailService} from "../../../mail/service/mail/mail.service";
+import { ConfirmationTokensServiceResponse } from "../serviceResponses/confirmationTokenService.response";
 
 @Injectable()
 export class ConfirmationTokensService{
@@ -23,11 +24,18 @@ export class ConfirmationTokensService{
     {
     }
 
-    async GenerateToken(dto: SendConfirmationMailDto) : Promise<BaseResponse>{
+
+    async getByUserId(userId: number) : Promise<UserConfirmationTokenEntity>{
+        return await this.userConfirmationTokenEntityRepository.findOneBy({user_id: userId});
+    }
+
+    async GenerateToken(dto: SendConfirmationMailDto) : Promise<ConfirmationTokensServiceResponse>{
         const user : UserEntity = await this.userService.findByEmail(dto.email);
 
+        console.log(user);
+
         if(user === null || user.id !== dto.user_id){
-            return new BaseResponse(false, "user_not_found");
+            return new ConfirmationTokensServiceResponse(false, "user_not_found")
         }
 
         const token : string = await this.generateRandomString(confirmationTokenLength);
@@ -38,12 +46,12 @@ export class ConfirmationTokensService{
 
         const resut = await this.userConfirmationTokenEntityRepository.save(newTokenEntity);
 
-        return new BaseResponse();
+        return new ConfirmationTokensServiceResponse(true, "", resut.token, user.id);
     }
 
     async VerificateToken(dto: VerificateDto) : Promise<BaseResponse>{
         const tokenEntity: UserConfirmationTokenEntity = await this.userConfirmationTokenEntityRepository
-            .findOneBy({user_id: dto.user_id});
+            .findOneBy({user_id: dto.user_id, is_confirmed: false});
 
         if(tokenEntity === null || tokenEntity?.token !== dto.token || tokenEntity?.user_id !== dto.user_id){
             return new BaseResponse(false, "incorrect_token");
@@ -57,6 +65,8 @@ export class ConfirmationTokensService{
 
         await this.userConfirmationTokenEntityRepository.save(tokenEntity);
         await this.userRepository.save(user);
+
+        return new BaseResponse();
     }
 
     private async generateRandomString(length: number) : Promise<string>{
@@ -71,8 +81,8 @@ export class ConfirmationTokensService{
         return result;
     }
 
-    generateUrl(returnUrl: string, code: string) : string{
-        return  returnUrl + '/' + code;
+    public generateUrl(returnUrl: string, code: string, userId: number) : string{
+        return returnUrl + '/' + userId + "/" + code;
     }
 
 }

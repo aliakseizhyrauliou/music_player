@@ -4,6 +4,7 @@ import {HashingService} from "../hashing/hashing.service";
 import {AuthServiceResponse} from "../serviceResponses/auth.service.response";
 import {JwtService} from "@nestjs/jwt";
 import {UserSignInDto} from "../../../user/dto/user.dto/user.sign_in.dto";
+import { AuthTypeResponse } from '../serviceResponses/authResposeType';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,10 @@ export class AuthService {
         const hashingCompareResult : boolean = await this.hashingService.comparePassword(userModel.password, user.password_hash);
         if(!hashingCompareResult){
             return new AuthServiceResponse(false, "password_incorrect");
+        }
+
+        if(!user.is_email_confirmed){
+            return new AuthServiceResponse(false, "email_not_confirmed", "", "", user.email, user.id, AuthTypeResponse.email_not_confirmed);
         }
         const payload = { sub: user.id, username: user.name };
 
