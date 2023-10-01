@@ -16,6 +16,9 @@ export class UserService {
     ) {
     }
 
+    async findByRefreshToken(token: string) : Promise<UserEntity>{
+        return this.userEntityRepository.findOneBy({refresh_token: token});   
+    }
     async findByEmail(email: string) {
         return this.userEntityRepository.findOneBy({email: email});
     }
@@ -35,6 +38,8 @@ export class UserService {
         userEntity.is_email_confirmed = false;
         
         userEntity.password_hash = await this.hashingService.hashPassword(user.password);
+
+        userEntity.refresh_token = await this.hashingService.generateRandomStrig(35);
 
         await this.userEntityRepository.save(userEntity);
 

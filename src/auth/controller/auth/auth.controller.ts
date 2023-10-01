@@ -11,10 +11,11 @@ import {SendConfirmationMailDto} from "../../dto/sendConfirmationMail.dto";
 import {ConfirmationTokensService} from "../../service/auth/confirmation.tokens.service";
 import { MailService } from 'src/mail/service/mail/mail.service';
 import { UserEntity } from 'src/user/entity/user.entity/user.entity';
-import { UserConfirmationTokenEntity } from 'src/auth/entity/user.confirmation.token.entity';
+import { UserConfirmationTokenEntity } from 'src/auth/entity/userConfirmationToken.entity';
 import { VerificateDto } from 'src/auth/dto/verificate.dto';
 import { ConfirmationTokensServiceResponse } from 'src/auth/service/serviceResponses/confirmationTokenService.response';
 import { AuthTypeResponse } from 'src/auth/service/serviceResponses/authResposeType';
+import { RefreshTokenDto } from 'src/auth/dto/refreshToken.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -43,7 +44,7 @@ export class AuthController {
         console.log(userModel);
         const signInResult: AuthServiceResponse = await this.authService.signIn(userModel);
         if(signInResult.is_success){
-            return new TokenDto(signInResult.access_token);
+            return new TokenDto(signInResult.access_token, signInResult.refresh_token);
         }
         
         if(signInResult.responseType == AuthTypeResponse.email_not_confirmed){
@@ -59,6 +60,23 @@ export class AuthController {
               );
         }
 
+    }
+
+    @HttpCode(200)
+    @Post('refresh_token')
+    async refreshToken(@Body() refresh_token: RefreshTokenDto) : Promise<TokenDto>{
+
+        if(refresh_token === undefined || refresh_token.refresh_token === undefined){
+            throw new HttpException("invalid_token", HttpStatus.BAD_REQUEST);
+        }        
+        
+        const refreshTokenProcessResult : AuthServiceResponse = await this.authService.refreshToken(refresh_token.refresh_token);
+
+        if(!refreshTokenProcessResult.is_success){
+            throw new HttpException(refreshTokenProcessResult.error_message, HttpStatus.BAD_REQUEST);
+        }
+
+        return new TokenDto(refreshTokenProcessResult.access_token, refreshTokenProcessResult.refresh_token);
     }
 
     @HttpCode(200)

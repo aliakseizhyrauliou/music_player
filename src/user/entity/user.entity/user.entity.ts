@@ -30,4 +30,10 @@ export class UserEntity {
     @AutoMap()
     @Column()
     is_email_confirmed: boolean;
+
+    @Column({nullable: false})
+    refresh_token: string;
+
+    @Column({ type: 'timestamptz', nullable: true})
+    refres_token_expiration_date: Date;    
 }

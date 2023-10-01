@@ -10,7 +10,7 @@ import {JwtModule} from "@nestjs/jwt";
 import {jwtConstants} from "./auth/constans";
 import {UserEntity} from "./user/entity/user.entity/user.entity";
 import { MailModule } from './mail/mail.module';
-import { UserConfirmationTokenEntity } from './auth/entity/user.confirmation.token.entity';
+import { UserConfirmationTokenEntity } from './auth/entity/userConfirmationToken.entity';
 
 @Module({
   imports:[
@@ -30,7 +30,7 @@ import { UserConfirmationTokenEntity } from './auth/entity/user.confirmation.tok
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1h' },
     }),
   ArtistModule, AuthModule, UserModule, MailModule],
   controllers: [AppController],

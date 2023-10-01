@@ -6,7 +6,7 @@ import {UserService} from "../user/service/user/user.service";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ArtistEntity} from "../artist/entity/artist.entity/artist.entity";
 import {UserEntity} from "../user/entity/user.entity/user.entity";
-import {UserConfirmationTokenEntity} from "./entity/user.confirmation.token.entity";
+import {UserConfirmationTokenEntity} from "./entity/userConfirmationToken.entity";
 import {ConfirmationTokensService} from "./service/auth/confirmation.tokens.service";
 import { MailService } from 'src/mail/service/mail/mail.service';
 

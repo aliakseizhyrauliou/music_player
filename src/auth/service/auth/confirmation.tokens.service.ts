@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../../../user/entity/user.entity/user.entity";
 import {Repository} from "typeorm";
-import {UserConfirmationTokenEntity} from "../../entity/user.confirmation.token.entity";
+import {UserConfirmationTokenEntity} from "../../entity/userConfirmationToken.entity";
 import {SendConfirmationMailDto} from "../../dto/sendConfirmationMail.dto";
 import {BaseResponse} from "../serviceResponses/base.response";
 import {UserService} from "../../../user/service/user/user.service";
@@ -63,7 +63,7 @@ export class ConfirmationTokensService{
 
         user.is_email_confirmed = true;
 
-        await this.userConfirmationTokenEntityRepository.save(tokenEntity);
+        await this.userConfirmationTokenEntityRepository.remove(tokenEntity);
         await this.userRepository.save(user);
 
         return new BaseResponse();
