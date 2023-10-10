@@ -1,11 +1,10 @@
 import { AutoMap } from "@automapper/classes";
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { TrackEntity } from "../track.entity/track.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ArtistEntity } from "../artist.entity/artist.entity";
 import { AlbumEntity } from "../album.entity/album.entity";
 
 @Entity()
-export class ArtistEntity {
-
+export class TrackEntity {
     @AutoMap()
     @PrimaryGeneratedColumn()
     id: number;
@@ -16,19 +15,19 @@ export class ArtistEntity {
 
     @AutoMap()
     @Column({nullable: true})
-    profileImageUrl: string;
+    durationSec: number;
 
     @AutoMap()
     @Column({nullable: true})
     description: string;
 
     @AutoMap()
-    @OneToMany(() => TrackEntity, track => track.artist)
+    @ManyToOne(() => ArtistEntity, artist => artist.tracks)
     @JoinColumn()
-    tracks: TrackEntity[];
+    artist: ArtistEntity;
 
     @AutoMap()
-    @OneToMany(() => AlbumEntity, album => album.artist, {lazy: true})
+    @ManyToOne(() => AlbumEntity, album => album.tracks)
     @JoinColumn()
-    albums: AlbumEntity[];
+    album: AlbumEntity;
 }

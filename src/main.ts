@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import { SeedModule } from 'db/seed/seed.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const seedModule = app.select(SeedModule); 
+  await seedModule.get(SeedModule).SeedArtist();
+  
   const config = new DocumentBuilder()
       .setTitle('Musion')
       .setDescription('The Musion API description')

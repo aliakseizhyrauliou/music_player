@@ -5,6 +5,7 @@ import {ArtistEntity} from 'src/artist/entity/artist.entity/artist.entity';
 import {mapper} from 'src/artist/mapper/mapper';
 import {Repository} from 'typeorm';
 import {CreateArtistDto} from "../../dto/artist.dto/create_artist.dto";
+import { AlbumEntity } from 'src/artist/entity/album.entity/album.entity';
 
 @Injectable()
 export class ArtistService {
@@ -36,7 +37,16 @@ export class ArtistService {
     public async GetById(id: number) : Promise<ArtistDto>{
         let artist: ArtistEntity = await this.artistRepository
             .findOneBy({id: id})
-
+        
+        console.log(artist);
+        
         return mapper.map(artist, ArtistEntity, ArtistDto);
+    }
+
+    public async GetAlbums(id: number) : Promise<AlbumEntity[]>{
+        let artist: ArtistEntity = await this.artistRepository
+        .findOneBy({id: id})
+
+        return artist.albums;
     }
 }

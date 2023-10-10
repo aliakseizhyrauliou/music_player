@@ -11,28 +11,18 @@ import {jwtConstants} from "./auth/constans";
 import {UserEntity} from "./user/entity/user.entity/user.entity";
 import { MailModule } from './mail/mail.module';
 import { UserConfirmationTokenEntity } from './auth/entity/userConfirmationToken.entity';
+import { dataSourceOptions } from 'db/data-source';
+import { SeedModule } from '../db/seed/seed.module';
 
 @Module({
   imports:[
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      password: 'Password1',
-      username: 'postgres',
-      entities: [ArtistEntity, UserEntity, UserConfirmationTokenEntity], // here we have added user enitity in entities array
-      database: 'MusicPlayer',
-      synchronize: true,
-      logging: true,
-      migrations: ["../migrations/*{.ts,.js}"],
-
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1h' },
     }),
-  ArtistModule, AuthModule, UserModule, MailModule],
+  ArtistModule, AuthModule, UserModule, MailModule, SeedModule],
   controllers: [AppController],
   providers: [AppService],
 })
