@@ -5,6 +5,10 @@ import { SeedModule } from 'db/seed/seed.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+
+    origin:"http://localhost:5173/",
+    });
 
   const seedModule = app.select(SeedModule); 
   await seedModule.get(SeedModule).SeedArtist();
