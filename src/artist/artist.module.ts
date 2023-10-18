@@ -13,6 +13,7 @@ import { TrackDto } from './dto/track.dto/track.dto';
 import { map } from 'rxjs';
 import { AlbumEntity } from './entity/album.entity/album.entity';
 import { AlbumDto } from './dto/album.dto/album.dto';
+import { AlbumService } from './service/album/album.service';
 
 createMap(mapper, ArtistEntity, ArtistDto);
 createMap(mapper, ArtistDto, ArtistEntity);
@@ -22,9 +23,9 @@ createMap(mapper, TrackEntity, TrackDto);
 createMap(mapper, AlbumEntity, AlbumDto);
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArtistEntity])],
+  imports: [TypeOrmModule.forFeature([ArtistEntity, AlbumEntity, TrackEntity])],
   controllers:[ArtistController],
-  providers:[ArtistService]
+  providers:[ArtistService, AlbumService]
 })
 
 
