@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ArtistEntity } from '../artist.entity/artist.entity';
+import { ArtistEntity } from '../../../artist/entity/artist.entity/artist.entity';
 import { AlbumEntity } from '../../../album/entity/album.entity/album.entity';
 
 @Entity()

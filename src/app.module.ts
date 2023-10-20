@@ -11,6 +11,7 @@ import { MailModule } from './mail/mail.module';
 import { dataSourceOptions } from 'db/data-source';
 import { SeedModule } from '../db/seed/seed.module';
 import { AlbumModule } from './album/album.module';
+import { TrackModule } from './track/track.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AlbumModule } from './album/album.module';
     MailModule,
     SeedModule,
     AlbumModule,
+    TrackModule,
   ],
   controllers: [AppController],
   providers: [AppService],

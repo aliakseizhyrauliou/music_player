@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistEntity } from 'src/artist/entity/artist.entity/artist.entity';
-import { TrackEntity } from 'src/artist/entity/track.entity/track.entity';
+import { TrackEntity } from 'src/track/entity/track.entity/track.entity';
 import { UserEntity } from 'src/user/entity/user.entity/user.entity';
 import { Repository } from 'typeorm';
 import { AlbumEntity } from '../../src/album/entity/album.entity/album.entity';

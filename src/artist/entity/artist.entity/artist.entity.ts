@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TrackEntity } from '../track.entity/track.entity';
+import { TrackEntity } from '../../../track/entity/track.entity/track.entity';
 import { AlbumEntity } from '../../../album/entity/album.entity/album.entity';
 
 @Entity()
@@ -28,12 +28,12 @@ export class ArtistEntity {
   description: string;
 
   @AutoMap()
-  @OneToMany(() => TrackEntity, (track) => track.artist, { eager: true })
+  @OneToMany(() => TrackEntity, (track) => track.artist)
   @JoinColumn()
   tracks: TrackEntity[];
 
   @AutoMap()
-  @OneToMany(() => AlbumEntity, (album) => album.artist, { eager: true })
+  @OneToMany(() => AlbumEntity, (album) => album.artist)
   @JoinColumn()
   albums: AlbumEntity[];
 }

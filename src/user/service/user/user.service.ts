@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../../entity/user.entity/user.entity';
-import { BaseResponse } from '../../../auth/service/serviceResponses/base.response';
+import { BaseResponse } from '../../../common/base.response';
 import { mapper } from '../../../mapper';
 import { HashingService } from '../../../auth/service/hashing/hashing.service';
 import { UserSignUpDto } from '../../dto/user.dto/user.sign_up.dto';

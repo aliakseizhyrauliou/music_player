@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumEntity } from '../../entity/album.entity/album.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { mapper } from '../../../mapper';
 import { AlbumDto } from '../../dto/album.dto/album.dto';
 
@@ -12,14 +12,71 @@ export class AlbumService {
     private albumEntityRepository: Repository<AlbumEntity>,
   ) {}
 
-  public async GetAlbums(artistId: number): Promise<AlbumDto[]> {
-    const [qb] = await Promise.all([
-      this.albumEntityRepository.createQueryBuilder('album'),
-    ]);
+  public async GetAll(offset: number, limit: number): Promise<AlbumDto[]> {
+    const entities = await this.albumEntityRepository.find({
+      relations: {
+        artist: true,
+      },
+      order: {
+        name: 'ASC',
+      },
+      skip: offset,
+      take: limit,
+    });
 
-    qb.where('album.artistId = :id', { id: artistId });
+    return mapper.mapArray(entities, AlbumEntity, AlbumDto);
+  }
+  public async GetAlbumsByArtistId(
+    artistId: number,
+    offset: number,
+    limit: number,
+  ): Promise<AlbumDto[]> {
+    const entities = await this.albumEntityRepository.find({
+      relations: {
+        artist: {
+          tracks: false,
+        },
+      },
+      where: {
+        artist: {
+          id: artistId,
+        },
+      },
+      order: {
+        name: 'ASC',
+      },
+      skip: offset,
+      take: limit,
+    });
+    return mapper.mapArray(entities, AlbumEntity, AlbumDto);
+  }
 
-    const test = await qb.getMany();
-    return mapper.mapArray(test, AlbumEntity, AlbumDto);
+  public async FindByName(
+    name: string,
+    offset: number,
+    limit: number,
+  ): Promise<AlbumDto[]> {
+    const entities = await this.albumEntityRepository.find({
+      where: {
+        name: Like(`%${name}%`),
+      },
+      order: {
+        name: 'ASC',
+      },
+      skip: offset,
+      take: limit,
+    });
+
+    return mapper.mapArray(entities, AlbumEntity, AlbumDto);
+  }
+
+  public async GetAlbumById(albumId: number): Promise<AlbumDto> {
+    const entity = await this.albumEntityRepository.findOne({
+      where: {
+        id: albumId,
+      },
+    });
+
+    return mapper.map(entity, AlbumEntity, AlbumDto);
   }
 }

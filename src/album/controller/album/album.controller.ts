@@ -5,19 +5,64 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Query,
 } from '@nestjs/common';
 import { AlbumDto } from '../../dto/album.dto/album.dto';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { maxDefaultLimit } from '../../../common/variables';
 
+@ApiTags('Albums')
 @Controller('album')
 export class AlbumController {
   constructor(private albumService: AlbumService) {}
+  @ApiQuery({ name: 'offset', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Get('/getAll')
+  async getAll(
+    @Query('offset') offset: number = 0,
+    @Query('limit') limit: number = maxDefaultLimit,
+  ): Promise<AlbumDto[]> {
+    return await this.albumService.GetAll(offset, limit);
+  }
+  @ApiQuery({ name: 'offset', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Get('/getAlbumsByArtistId')
+  async GetAlbumsByArtistId(
+    @Query('artistId') artistId: number,
+    @Query('offset') offset: number = 0,
+    @Query('limit') limit: number = maxDefaultLimit,
+  ): Promise<AlbumDto[]> {
+    const albums: AlbumDto[] = await this.albumService.GetAlbumsByArtistId(
+      artistId,
+      offset,
+      limit,
+    );
 
-  @Get('/getAlbumsByArtistId/:id')
-  async GetAlbumsByUserIdyId(@Param('id') id: number): Promise<AlbumDto[]> {
-    const artist: AlbumDto[] = await this.albumService.GetAlbums(id);
-    if (artist == null) {
-      throw new HttpException('artist_not_found', HttpStatus.NOT_FOUND);
+    return albums;
+  }
+
+  @Get('/getById')
+  async GetById(@Param('artistId') artistId: number): Promise<AlbumDto> {
+    const album: AlbumDto = await this.albumService.GetAlbumById(artistId);
+    if (album == null) {
+      throw new HttpException('album_not_found', HttpStatus.NOT_FOUND);
     }
-    return artist;
+    return album;
+  }
+
+  @ApiQuery({ name: 'offset', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Get('/findByName')
+  async FindByName(
+    @Query('name') name: string,
+    @Query('offset') offset: number = 0,
+    @Query('limit') limit: number = maxDefaultLimit,
+  ): Promise<AlbumDto[]> {
+    const albums: AlbumDto[] = await this.albumService.FindByName(
+      name,
+      offset,
+      limit,
+    );
+    return albums;
   }
 }

@@ -2,6 +2,7 @@ import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 import { AlbumDto } from '../../../album/dto/album.dto/album.dto';
+import { AlbumEntity } from "../../../album/entity/album.entity/album.entity";
 
 export class ArtistDto {
   @ApiProperty()
@@ -24,8 +25,8 @@ export class ArtistDto {
   @AutoMap()
   description: string;
 
-  @ApiProperty({ type: [AlbumDto] }) // Указание типа альбомов
+  @ApiProperty({ type: [AlbumDto] })
   @IsString()
-  @AutoMap()
+  @AutoMap(() => AlbumDto)
   albums: AlbumDto[];
 }
