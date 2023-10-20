@@ -30,8 +30,8 @@ export class ArtistController {
         return await this.artistServise.GetById(id);
     }
 
-    @Get("/getAlbumsByUserId/:id")
-    async GetBgetAlbumsByUserIdyId(@Param('id') id: number): Promise<AlbumEntity[]> {
+    @Get("/getAlbumsByArtistId/:id")
+    async GetAlbumsByUserIdyId(@Param('id') id: number): Promise<AlbumEntity[]> {
         let artist : AlbumEntity[] = await this.artistServise.GetAlbums(id);
         if(artist == null){
             throw new HttpException('artist_not_found', HttpStatus.NOT_FOUND);
