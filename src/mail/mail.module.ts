@@ -6,14 +6,14 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: "smtp.gmail.com",
+        host: 'smtp.gmail.com',
         auth: {
-          user: "a6o6a.acu111dau@gmail.com",
-          pass: "zuhe xufs cuvt llwq"
-        }
-      }
-    })
+          user: 'a6o6a.acu111dau@gmail.com',
+          pass: 'zuhe xufs cuvt llwq',
+        },
+      },
+    }),
   ],
-  providers: [MailService]
+  providers: [MailService],
 })
 export class MailModule {}

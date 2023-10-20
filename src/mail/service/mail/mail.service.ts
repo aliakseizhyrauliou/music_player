@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import {MailerService} from "@nestjs-modules/mailer";
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class MailService {
- 
-    constructor(private readonly mailService: MailerService){}
+  constructor(private readonly mailService: MailerService) {}
 
-    async sendMail(email: string, returnUrl: string) : Promise<any> {
+  async sendMail(email: string, returnUrl: string): Promise<any> {
+    console.log(email);
+    console.log(returnUrl);
 
-        console.log(email);
-        console.log(returnUrl);
-
-        await this.mailService.sendMail({
-            to: email,
-            from: "a6o6a.acu111dau@gmail.com",
-            subject: "Verify email in Musion",
-            html: `
+    await this.mailService.sendMail({
+      to: email,
+      from: 'a6o6a.acu111dau@gmail.com',
+      subject: 'Verify email in Musion',
+      html: `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -72,8 +70,7 @@ export class MailService {
                     </div>
                 </body>
             </html>
-            `, 
-        });
-    }
-
+            `,
+    });
+  }
 }

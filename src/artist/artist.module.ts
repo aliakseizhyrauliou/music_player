@@ -4,29 +4,23 @@ import { ArtistService } from './service/artist/artist.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistEntity } from './entity/artist.entity/artist.entity';
 import { createMap } from '@automapper/core';
-import { mapper } from './mapper/mapper';
 import { ArtistDto } from './dto/artist.dto/artist.dto';
-import {CreateArtistDto} from "./dto/artist.dto/create_artist.dto";
-import { create } from 'domain';
+import { CreateArtistDto } from './dto/artist.dto/create_artist.dto';
 import { TrackEntity } from './entity/track.entity/track.entity';
 import { TrackDto } from './dto/track.dto/track.dto';
-import { map } from 'rxjs';
-import { AlbumEntity } from './entity/album.entity/album.entity';
-import { AlbumDto } from './dto/album.dto/album.dto';
-import { AlbumService } from './service/album/album.service';
+import { AlbumEntity } from '../album/entity/album.entity/album.entity';
+import { AlbumService } from '../album/service/album/album.service';
+import { mapper } from '../mapper';
 
 createMap(mapper, ArtistEntity, ArtistDto);
 createMap(mapper, ArtistDto, ArtistEntity);
 createMap(mapper, CreateArtistDto, ArtistEntity);
 createMap(mapper, ArtistEntity, CreateArtistDto);
 createMap(mapper, TrackEntity, TrackDto);
-createMap(mapper, AlbumEntity, AlbumDto);
 
 @Module({
   imports: [TypeOrmModule.forFeature([ArtistEntity, AlbumEntity, TrackEntity])],
-  controllers:[ArtistController],
-  providers:[ArtistService, AlbumService]
+  controllers: [ArtistController],
+  providers: [ArtistService, AlbumService],
 })
-
-
 export class ArtistModule {}
