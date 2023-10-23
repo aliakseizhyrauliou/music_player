@@ -42,8 +42,8 @@ export class AlbumController {
   }
 
   @Get('/getById')
-  async GetById(@Param('artistId') artistId: number): Promise<AlbumDto> {
-    const album: AlbumDto = await this.albumService.GetAlbumById(artistId);
+  async GetById(@Query('albumId') albumId: number): Promise<AlbumDto> {
+    const album: AlbumDto = await this.albumService.GetAlbumById(albumId);
     if (album == null) {
       throw new HttpException('album_not_found', HttpStatus.NOT_FOUND);
     }
