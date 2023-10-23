@@ -31,15 +31,18 @@ export class SeedModule {
 
     const Radiohead = new ArtistEntity();
     Radiohead.name = 'Radiohead';
+    Radiohead.profileImageUrl = " " //Картинка артиста
 
     const InRainbows = new AlbumEntity();
     InRainbows.name = 'In Rainbows';
     InRainbows.artist = Radiohead;
+    InRainbows.imageUrl = ""//Картинка альбома
 
     const FifteenStep = new TrackEntity();
     FifteenStep.name = '15 Step';
     FifteenStep.artist = Radiohead;
     FifteenStep.album = InRainbows;
+    FifteenStep.imageUrl = "" //Картинка трека
 
     const Bodysnatchers = new TrackEntity();
     Bodysnatchers.name = 'Bodysnatchers';

@@ -25,6 +25,11 @@ export class TrackEntity {
 
   @AutoMap()
   @Column({ nullable: true })
+  imageUrl: string;
+
+
+  @AutoMap()
+  @Column({ nullable: true })
   description: string;
 
   @AutoMap()

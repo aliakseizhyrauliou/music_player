@@ -27,6 +27,10 @@ export class AlbumEntity {
   @AutoMap()
   @Column({ nullable: true })
   description: string;
+  
+  @AutoMap()
+  @Column({ nullable: true })
+  imageUrl: string;
 
   @AutoMap()
   @OneToMany(() => TrackEntity, (track) => track.album)
