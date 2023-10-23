@@ -14,6 +14,10 @@ export class AlbumDto {
   @AutoMap()
   name: string;
 
+  @ApiProperty()
+  @AutoMap()
+  imageUrl: string;
+
   @ApiProperty({ type: [ArtistDto] })
   @AutoMap(() => ArtistDto)
   artist: ArtistDto;

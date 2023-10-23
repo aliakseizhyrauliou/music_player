@@ -15,4 +15,6 @@ export class TrackDto {
   albumName: string;
   @AutoMap()
   creationDate: string;
+  @AutoMap()
+  imageUrl: string;
 }
