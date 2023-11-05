@@ -27,7 +27,7 @@ import { RefreshTokenDto } from 'src/auth/dto/refreshToken.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   constructor(
     private authService: AuthService,

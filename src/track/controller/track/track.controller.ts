@@ -5,7 +5,7 @@ import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { maxDefaultLimit } from '../../../common/variables';
 
 @ApiTags('Tracks')
-@Controller('track')
+@Controller('api/track')
 export class TrackController {
   constructor(private trackService: TrackService) {}
 

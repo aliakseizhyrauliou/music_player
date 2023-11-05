@@ -12,7 +12,7 @@ import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { maxDefaultLimit } from '../../../common/variables';
 
 @ApiTags('Albums')
-@Controller('album')
+@Controller('api/albums')
 export class AlbumController {
   constructor(private albumService: AlbumService) {}
   @ApiQuery({ name: 'offset', required: false, type: Number })

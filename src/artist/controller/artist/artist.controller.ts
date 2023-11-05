@@ -13,7 +13,7 @@ import { CreateArtistDto } from '../../dto/artist.dto/create_artist.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { maxDefaultLimit } from '../../../common/variables';
 @ApiTags('Artists')
-@Controller('artist')
+@Controller('api/artist')
 export class ArtistController {
   constructor(private artistServiсe: ArtistService) {}
 
