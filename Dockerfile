@@ -1,18 +1,23 @@
-# Используйте официальный образ Node.js в качестве базового образа
 FROM node
 
-# Установите рабочую директорию внутри контейнера
 WORKDIR /app
 
-# Скопируйте файл package.json и package-lock.json (если есть) и установите зависимости
 COPY package*.json ./
+
 RUN npm install
 
-# Скопируйте исходный код вашего приложения в контейнер
 COPY . .
 
-# Определите порт, на котором будет работать ваше приложение
-EXPOSE 3000
+COPY ./dist ./dist
 
-# Команда, чтобы запустить ваше приложение
-CMD ["npm", "run", "start"]
+RUN npm run build
+
+CMD [ "node", "dist/src/main"]
+
+ENV DB_HOST=postgres
+
+ENV DB_PORT=5432
+
+ENV DB_USER=postgres
+
+ENV DB_PASSWORD=Password1
