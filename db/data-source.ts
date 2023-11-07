@@ -2,10 +2,10 @@ import { DataSource, DataSourceOptions } from "typeorm";
 
 export const dataSourceOptions: DataSourceOptions = {
     type: 'postgres',
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT),//5432,
-    password: process.env.DB_PASSWORD,
-    username: process.env.DB_USER,
+    host: 'postgres',
+    port: 5432,//5432,
+    password: 'Password1',
+    username: 'postgres',
     entities: ['dist/**/*.entity.js'], // here we have added user enitity in entities array
     database: 'MusicPlayer',
     logging: true,
