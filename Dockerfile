@@ -12,8 +12,6 @@ COPY ./dist ./dist
 
 RUN npm run build
 
-RUN npm run typeorm -- migration:run
-
 CMD [ "node", "dist/src/main"]
 
 ENV DB_HOST=postgres
